@@ -1,16 +1,24 @@
 import React, { lazy, Suspense } from 'react';
-import { AppContext } from "./container/AppContext";
-
-const Home = lazy(() => import ('./container/Home'));
+// import { AppContext } from "./container/AppContext";
+// import ErrorBoundary from "./container/ErrorBoundary"
+// const Home = lazy(() => import ('./container/Home'));
+import "./App.css"
+import Counter from "./counter/Counter"
 
 
 const App: React.FC = () => {
   return (
-    <AppContext>
-      <Suspense fallback="loading" >
-        <Home />
-      </Suspense>
-    </AppContext>
+    // <AppContext>
+    //   <ErrorBoundary>
+    //     <Suspense fallback="loading" >
+    //       <Home />
+    //     </Suspense>
+    //   </ErrorBoundary>
+
+    // </AppContext>
+    // <div className="App">
+    //     <Counter />
+    // </div>
     
   );
 }

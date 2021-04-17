@@ -5,8 +5,13 @@ const initState = {};
 
 const Context = createContext(initState)
 
+interface Props {
+    children: JSX.Element | null
+}
 
-export const AppContext: React.FC<{ children: JSX.Element | null }> = ({ children }) => {
+export const AppContext = ({ children }: Props) => {
+
+// export const AppContext: React.FC<{ children: JSX.Element | null }> = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initState);
 
     const addVal = (val: number) => {
