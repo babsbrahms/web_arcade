@@ -1,0 +1,7 @@
+.alert {
+    position: absolute;
+    top: 20%;
+    left: 45%;
+    width: 50%;
+    box-shadow: cadetblue;
+}

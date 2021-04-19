@@ -1,25 +1,12 @@
-import React, { lazy, Suspense } from 'react';
-// import { AppContext } from "./container/AppContext";
-// import ErrorBoundary from "./container/ErrorBoundary"
-// const Home = lazy(() => import ('./container/Home'));
-import "./App.css"
-import Counter from "./counter/Counter"
+import React from 'react';
+import GlobalProvider from "./context/GlobalContext"
+import Home from "./component/pages/Home";
 
-
-const App: React.FC = () => {
+const App = () => {
   return (
-    // <AppContext>
-    //   <ErrorBoundary>
-    //     <Suspense fallback="loading" >
-    //       <Home />
-    //     </Suspense>
-    //   </ErrorBoundary>
-
-    // </AppContext>
-    // <div className="App">
-    //     <Counter />
-    // </div>
-    
+    <GlobalProvider>
+      <Home />
+    </GlobalProvider>
   );
 }
 
