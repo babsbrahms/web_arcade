@@ -1,13 +1,14 @@
 
 
-.container {
+.wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
     grid-auto-rows: minmax(200px, auto);
 }
 
-.container > div {
+
+.wrapper > div {
     cursor: pointer;
     background: #ccc;
     padding: 1em;
@@ -16,19 +17,25 @@
     justify-content: center;
     align-items: center;
     user-select: none;
+    border-radius: 50%;
 
 }
 
-.container > div:hover {
+.wrapper > div:hover {
     opacity: 0.7;
 
 }
-.container > div:nth-child(even) {
+.wrapper > div:nth-child(even) {
     background: #eee;
 }
 
 h1 {
     text-align: center;
     color: brown;
+    
+}
+
+.pick {
+    border: 2px solid coral;
     
 }

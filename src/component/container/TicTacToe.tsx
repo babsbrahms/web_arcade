@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Segment, Button } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Alert } from "./Alert"
 import "../css/tictactoe.css"
 
 const winningCombo = [
@@ -34,13 +33,6 @@ const TicTacToe = () => {
                 // setBoard(["","","","","","","","",""])
             } else {
                 await setNext(next === "X"? "O" : "X")
-
-                if (next === "O") {
-                    // let guess = computerGuess();
-                    // play(guess!)
-                } else {
-                  // you playy      
-                }
             }
         } else {
             addMessage("Try again!")
@@ -49,11 +41,6 @@ const TicTacToe = () => {
 
 
     const checkWin = (): string => {
-        let draw = board.every(tile => tile !== "")
-
-        if (draw) {
-            return `Draw!`
-        }
         let combo = ""
         board.forEach((tile, index) => {
             if (tile === next) {
@@ -62,21 +49,34 @@ const TicTacToe = () => {
         })
 
         if (winningCombo.includes(combo)) {
+            setLoading(true)
             return `Player ${next} wins!`
         } else {
+            let draw = board.every(tile => tile !== "")
+
+            if (draw) {
+                setLoading(true)
+                return `Draw!`
+            }
             return ""
         };
     }
 
     const computerGuess = () => {
-        let guess = Math.floor(Math.random() * 9);
-        if (board[guess] === "") {
-            console.log("final guess: ", guess);
-            return guess;
+        let draw = board.every(tile => tile !== "");
+
+        if (!draw) {
+            let guess = Math.floor(Math.random() * 9);
+            if (board[guess] === "") {
+                console.log("final guess: ", guess);
+                // return guess;
+                play(guess)
+            } else {
+                computerGuess()
+            }
         } else {
-            computerGuess()
-        }
-        
+            addMessage("Draw!")
+        } 
     }
 
     const newGame = () => {
@@ -85,16 +85,18 @@ const TicTacToe = () => {
     }
     return (
         <div>
-            <Alert />
-            <Segment loading={loading}>
+            <Segment disabled={loading}>
                 <div className="container">
                     {board.map((tile, index) => <div key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                 </div>
             </Segment>
 
 
-            <Button onClick={() => newGame()}>New Game</Button>
-            <Button onClick={() => computerGuess()}>Comouter Guess</Button>
+            <Button onClick={() => {
+                setLoading(false)
+                newGame();
+            }}>New Game</Button>
+            <Button onClick={() => computerGuess()}>Computer Guess</Button>
         </div>
 
     )

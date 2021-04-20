@@ -1,15 +1,17 @@
 import React, { Component, lazy, Suspense } from 'react';
-import ErrorBoundary from "../container/ErrorBoundary"
-import { GlobalContext } from "../../context/GlobalContext"
 import { Card, Dropdown, Segment, Input, DropdownProps } from 'semantic-ui-react';
+import ErrorBoundary from "../container/ErrorBoundary"
+import { GlobalContext, GlobalContextType } from "../../context/GlobalContext"
+import { Alert} from "../container/Alert";
 const RockPaperScisors = lazy(() => import("../container/RockPaperScisors"))
 const TicTacToe = lazy(() => import("../container/TicTacToe"))
 const WhacAMole = lazy(() => import("../container/WhacAMole"))
 
+
 interface Props {
 
 }
-type  Game  = | "" | "TIC-TAC-TOE" | "ROCK-PAPER-SCISORS" | "WHAC-A-MOLE"
+type  Game  = | "" | "TIC-TAC-TOE" | "ROCK-PAPER-SCISSORS" | "WHAC-A-MOLE"
 interface State {
     game: Game,
     name: string
@@ -32,6 +34,9 @@ export default class Home extends Component<Props, State> {
     }
 
     pickGame = ({ value }: DropdownProps) => {
+        const { clearMessage } = this.context as GlobalContextType;
+
+        clearMessage()
 
         this.setState({ game: value as Game })
     }
@@ -71,7 +76,7 @@ export default class Home extends Component<Props, State> {
                                             search
                                             selection
                                             value={game}
-                                            options={["TIC-TAC-TOE", "ROCK-PAPER-SCISORS", "WHAC-A-MOLE"].map(x => ({  key: x, value: x, text: x }))}
+                                            options={["TIC-TAC-TOE", "ROCK-PAPER-SCISSORS", "WHAC-A-MOLE"].map(x => ({  key: x, value: x, text: x }))}
                                             onChange={(e, data) => this.pickGame(data)}
                                         />
 
@@ -79,6 +84,7 @@ export default class Home extends Component<Props, State> {
                                 </Card.Content>
                             </Card>
                         </Segment>
+                        <Alert />
                         <div>
                             {(game === "TIC-TAC-TOE") && (
                                 <ErrorBoundary msg="Problem loading TIC-TAC-TOE">
@@ -88,8 +94,8 @@ export default class Home extends Component<Props, State> {
                                 </ErrorBoundary> 
                             )}
 
-                            {(game === "ROCK-PAPER-SCISORS") && (
-                                <ErrorBoundary msg="Problem loading ROCK-PAPER-SCISORS">
+                            {(game === "ROCK-PAPER-SCISSORS") && (
+                                <ErrorBoundary msg="Problem loading ROCK-PAPER-SCISSORS">
                                     <Suspense fallback="Loading...">
                                         <RockPaperScisors/>
                                     </Suspense>
