@@ -3,15 +3,16 @@ import { Card, Dropdown, Segment, Input, DropdownProps } from 'semantic-ui-react
 import ErrorBoundary from "../container/ErrorBoundary"
 import { GlobalContext, GlobalContextType } from "../../context/GlobalContext"
 import { Alert} from "../container/Alert";
-const RockPaperScisors = lazy(() => import("../container/RockPaperScisors"))
-const TicTacToe = lazy(() => import("../container/TicTacToe"))
-const WhacAMole = lazy(() => import("../container/WhacAMole"))
+const RockPaperScissors = lazy(() => import("../Games/RockPaperScissors"));
+const TicTacToe = lazy(() => import("../Games/TicTacToe"));
+const WhacAMole = lazy(() => import("../Games/WhacAMole"));
+const BattleShip = lazy(() => import("../Games/BattleShip"))
 
 
 interface Props {
 
 }
-type  Game  = | "" | "TIC-TAC-TOE" | "ROCK-PAPER-SCISSORS" | "WHAC-A-MOLE"
+type  Game  = | "" | "TIC-TAC-TOE" | "ROCK-PAPER-SCISSORS" | "WHAC-A-MOLE" | "BATTLE-SHIP"
 interface State {
     game: Game,
     name: string
@@ -97,7 +98,7 @@ export default class Home extends Component<Props, State> {
                             {(game === "ROCK-PAPER-SCISSORS") && (
                                 <ErrorBoundary msg="Problem loading ROCK-PAPER-SCISSORS">
                                     <Suspense fallback="Loading...">
-                                        <RockPaperScisors/>
+                                        <RockPaperScissors/>
                                     </Suspense>
                                 </ErrorBoundary> 
                             )}  

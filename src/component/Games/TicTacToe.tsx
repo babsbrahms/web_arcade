@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Segment, Button } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
-import "../css/tictactoe.css"
+import "./css/tictactoe.css"
 
 const winningCombo = [
     "-1-2-3",
@@ -66,7 +66,7 @@ const TicTacToe = () => {
         let draw = board.every(tile => tile !== "");
 
         if (!draw) {
-            let guess = Math.floor(Math.random() * 9);
+            let guess = Math.floor(Math.random() * board.length);
             if (board[guess] === "") {
                 console.log("final guess: ", guess);
                 // return guess;

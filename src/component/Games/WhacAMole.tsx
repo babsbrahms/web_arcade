@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Segment, Button } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
-import "../css/whacamole.css"
+import "./css/whacamole.css"
 
 
 const WhacAMole = () => {
@@ -43,7 +43,7 @@ const WhacAMole = () => {
     }
 
     const computerGuess = () => {
-        let guess = Math.floor(Math.random() * 9);
+        let guess = Math.floor(Math.random() * board.length);
         console.log(guess);
         
         setPostion(guess)

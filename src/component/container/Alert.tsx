@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Message, Icon } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
-import "../css/alert.css"
+import "./css/alert.css"
 
 interface Props {
 }

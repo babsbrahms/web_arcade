@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Segment, Header } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
-import "../css/tictactoe.css"
+import "./css/tictactoe.css"
 
 
 const iconOption = {
@@ -47,13 +47,13 @@ const RockPaperScissors = () => {
     return (
         <div>
             <Header>
-                <Header.Content>You: <span style={{ color: "green"}}>{plays.you}</span></Header.Content>
+                <Header.Content>You: <span  data-testid="player" style={{ color: "green"}}>{plays.you}</span></Header.Content>
                 <Header.Subheader></Header.Subheader>
-                <Header.Content>Computer: <span style={{ color: "green"}}>{plays.computer}</span></Header.Content>
+                <Header.Content>Computer: <span  data-testid="computer"  style={{ color: "green"}}>{plays.computer}</span></Header.Content>
             </Header>
             <Segment>
-                <div className="container">
-                    {options.map((tile, index) => <div key={`key-${index}`} onClick={() => play(tile)}> <h1>{tile}</h1> </div>)}
+                <div data-testid="board" className="container">
+                    {options.map((tile, index) => <div data-testid={tile} key={`key-${index}`} onClick={() => play(tile)}> <h1>{tile}</h1> </div>)}
                 </div>
             </Segment>
  
