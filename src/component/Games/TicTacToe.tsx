@@ -1,4 +1,3 @@
-import { log } from 'console';
 import React, { useState, useContext } from 'react';
 import { Segment, Button, Header, Dropdown, DropdownProps } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -31,9 +30,9 @@ const TicTacToe = () => {
     const [winner, setWinner] = useState("");
     const [victoryCombo, setVictoryCombo] = useState<number[]>([])
     const [loading, setLoading] = useState(false)
-    const { addMessage } = useContext(GlobalContext)
+    const { addMessage } = useContext(GlobalContext);
 
-    const play = async (index: number) => {
+    const play = (index: number) => {
         if (winner) {
             addMessage(`Player ${winner} win the game. You can start a new game!`);
             return;
@@ -41,7 +40,7 @@ const TicTacToe = () => {
         if (board[index] === "") {
             board[index] = currentPlayer;
 
-           await setBoard([...board]);
+            setBoard([...board]);
             
             let win = checkWin()
             if (win) {
@@ -50,16 +49,23 @@ const TicTacToe = () => {
                 // setBoard(["","","","","","","","",""])
             } else {
                 console.log("currentPlayer: ", currentPlayer);   
-                await  setCurrentPlayer(currentPlayer === "X"? "O" : "X")
+                setCurrentPlayer(currentPlayer === "X"? "O" : "X")
                     
-                // console.log("nextPlayer: ", currentPlayer); 
-                               
+                chechNextPlay()       
             }
         } else {
             addMessage("Try again!")
         }
     }
 
+
+    const chechNextPlay = () => {
+        console.log("nextPlayer: ", currentPlayer); 
+        if (currentPlayer === "O" && player.player2 === "Computer") {
+            
+        }
+
+    }
 
     const checkWin = (): string => {
         let win = checkRoundWin()
