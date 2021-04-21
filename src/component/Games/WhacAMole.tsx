@@ -77,8 +77,8 @@ const WhacAMole = () => {
                 control={
                     <div className="score">
                         <Button.Group color="black">
-                            <Button disabled={action === "play"} onClick={() => start()}>Start</Button>
-                            <Button disabled={action !== "play"} onClick={() => stop()}>Stop</Button>
+                            <Button data-testid="start-button" disabled={action === "play"} onClick={() => start()}>Start</Button>
+                            <Button data-testid="stop-button" disabled={action !== "play"} onClick={() => stop()}>Stop</Button>
                         </Button.Group>
 
 
@@ -86,6 +86,7 @@ const WhacAMole = () => {
                             <Header.Content data-testid="vedict">{verdict}</Header.Content>
                         </Header>
                         <Dropdown
+                            data-testid="tile-dropdown"
                             text="Number of tiles"
                             placeholder=''
                             disabled={action === "play"}
@@ -97,6 +98,7 @@ const WhacAMole = () => {
                         />
 
                         <Dropdown
+                            data-testid="speed-dropdown"
                             text="Change Speed"
                             placeholder=''
                             fluid
@@ -112,7 +114,7 @@ const WhacAMole = () => {
                 game={                      
                     <Segment>
                         <div data-testid="board" className="wrapper">
-                            {board.map((tile, index) => <div className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
+                            {board.map((tile, index) => <div role={`${position === index? "gridcell" : ""}`} className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>
                     </Segment>
                 } 

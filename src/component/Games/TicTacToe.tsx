@@ -149,7 +149,7 @@ const TicTacToe = () => {
                         />
 
                         <Header >
-                        <Header.Content>NEXT: <span>{next === "X"? player.player1.toUpperCase() : player.player2.toUpperCase()}</span></Header.Content>
+                        <Header.Content>NEXT: <span data-testid="next">{next === "X"? player.player1.toUpperCase() : player.player2.toUpperCase()}</span></Header.Content>
                         </Header>
 
                     </div>
@@ -157,7 +157,7 @@ const TicTacToe = () => {
             
                 game={                      
                     <Segment disabled={loading}>
-                        <div className="container">
+                        <div data-testid="board" className="container">
                             {board.map((tile, index) => <div className={`${(winner !== "") && (winner === tile)? "win" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>
                     </Segment>
