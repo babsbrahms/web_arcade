@@ -1,3 +1,4 @@
+import { log } from 'console';
 import React, { useState, useContext } from 'react';
 import { Segment, Button, Header, Dropdown, DropdownProps } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -22,34 +23,25 @@ const playerOption = [
     {  key: "TIC-1", value: "Player 1 VS Player 2", text: "Player 1 VS Player 2" },
 ]
 
-const winningCombo = [
-    "-1-2-3",
-    "-4-5-6",
-    "-7-8-9",
-    "-1-4-7",
-    "-2-5-8",
-    "-3-6-9",
-    "-1-5-9",
-    "-3-5-7"
-]
 
 const TicTacToe = () => {
     const [board, setBoard] = useState<string[]>(["","","","","","","","",""]);
-    const [next, setNext] = useState("X");
+    const [currentPlayer, setCurrentPlayer] = useState("X");
     const [player, setPlayer] = useState({ player1: "Player 1", player2: "Computer", text: "Player 1 VS Computer"})
-    const [winner, setWinner] = useState("")
+    const [winner, setWinner] = useState("");
+    const [victoryCombo, setVictoryCombo] = useState<number[]>([])
     const [loading, setLoading] = useState(false)
     const { addMessage } = useContext(GlobalContext)
 
-    const play = (index: number) => {
+    const play = async (index: number) => {
         if (winner) {
             addMessage(`Player ${winner} win the game. You can start a new game!`);
             return;
         }
         if (board[index] === "") {
-            board[index] = next;
+            board[index] = currentPlayer;
 
-            setBoard([...board]);
+           await setBoard([...board]);
             
             let win = checkWin()
             if (win) {
@@ -57,7 +49,11 @@ const TicTacToe = () => {
                 addMessage(win)
                 // setBoard(["","","","","","","","",""])
             } else {
-                setNext(next === "X"? "O" : "X")
+                console.log("currentPlayer: ", currentPlayer);   
+                await  setCurrentPlayer(currentPlayer === "X"? "O" : "X")
+                    
+                // console.log("nextPlayer: ", currentPlayer); 
+                               
             }
         } else {
             addMessage("Try again!")
@@ -66,17 +62,12 @@ const TicTacToe = () => {
 
 
     const checkWin = (): string => {
-        let combo = ""
-        board.forEach((tile, index) => {
-            if (tile === next) {
-                combo += `-${index + 1}`
-            }
-        })
-
-        if (winningCombo.includes(combo)) {
+        let win = checkRoundWin()
+        
+        if (win) {
             setLoading(true)
-            setWinner(next)
-            return `Player ${next} wins!`
+            setWinner(currentPlayer)
+            return `Player ${currentPlayer} wins!`
 
         } else {
             let draw = board.every(tile => tile !== "")
@@ -88,6 +79,59 @@ const TicTacToe = () => {
             return ""
         };
     }
+
+    const checkRoundWin = () => {
+        const winningCombo = [ "012", "345", "678", "036", "147", "258", "048", "246" ];
+        let combo = "";
+        let win = false;
+        let possible = [];
+        
+        // get combo for current player
+        board.forEach((tile, index) => {
+            if (tile === currentPlayer) {
+                combo += index
+            }
+        });
+
+        // get possible combo of player combo
+        for (let i = 0; i < combo.length; i++) {
+            if (combo.substr(i, 3).length < 3) {
+                break
+            }
+            for (let j = 0; j < combo.length; j++) {
+                // next 2 letters
+                if (j > i && combo[j + 1]) {
+                    possible.push(combo[i] + combo[j] + combo[j + 1])
+                }
+
+                // 1 letter in between
+                if (j > i && combo[j + 3]) {
+                    possible.push(combo[i] + combo[j + 1] + combo[j + 3] )
+                }
+            }
+        }
+
+        // check for combo in winnig combo
+        for (let word of possible) {
+            if (winningCombo.includes(word)) {
+                var vic = word.split('').map((item) => parseInt(item, 10));
+                // console.log("win: ", vic);
+                
+                setVictoryCombo(vic)
+                win = true;
+                break;
+            }
+        }
+
+        // console.log({
+        //     combo,
+        //     possible
+        // });
+        
+
+        return win
+    }
+
 
     const computerGuess = () => {
         let draw = board.every(tile => tile !== "");
@@ -113,7 +157,10 @@ const TicTacToe = () => {
 
     const newGame = () => {
         setBoard(["","","","","","","","",""])
-        setNext("X")
+        setCurrentPlayer("X");
+        setVictoryCombo([]);
+        setLoading(false);
+        setWinner("")
     }
     return (
         <div>
@@ -122,9 +169,9 @@ const TicTacToe = () => {
                     <div className="score-ttt">
                         <Button.Group data-testid="new-game" color="black">
                             <Button onClick={() => {
-                                setLoading(false)
+                                
                                 newGame();
-                                setWinner("")
+                                
                             }}>New Game</Button>
                             {/* <Button onClick={() => computerGuess()}>Computer Guess</Button> */}
                         </Button.Group>
@@ -150,7 +197,7 @@ const TicTacToe = () => {
                         />
 
                         <Header >
-                        <Header.Content>NEXT: <span data-testid="next">{next === "X"? player.player1.toUpperCase() : player.player2.toUpperCase()}</span></Header.Content>
+                        <Header.Content>Current Player: <span data-testid="next">{currentPlayer === "X"? player.player1.toUpperCase() : player.player2.toUpperCase()}</span></Header.Content>
                         </Header>
 
                     </div>
@@ -159,7 +206,7 @@ const TicTacToe = () => {
                 game={                      
                     <Segment disabled={loading}>
                         <div data-testid="board" className="container">
-                            {board.map((tile, index) => <div className={`${(winner !== "") && (winner === tile)? "win" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
+                            {board.map((tile, index) => <div className={`${(winner !== "") && (victoryCombo.includes(index))? "win" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>
                     </Segment>
                 } 
