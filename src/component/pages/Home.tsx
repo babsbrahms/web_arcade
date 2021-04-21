@@ -6,13 +6,12 @@ import { Alert} from "../container/Alert";
 const RockPaperScissors = lazy(() => import("../Games/RockPaperScissors"));
 const TicTacToe = lazy(() => import("../Games/TicTacToe"));
 const WhacAMole = lazy(() => import("../Games/WhacAMole"));
-const BattleShip = lazy(() => import("../Games/BattleShip"))
 
 
 interface Props {
 
 }
-type  Game  = | "" | "TIC-TAC-TOE" | "ROCK-PAPER-SCISSORS" | "WHAC-A-MOLE" | "BATTLE-SHIP"
+type  Game  = | "" | "TIC-TAC-TOE" | "ROCK-PAPER-SCISSORS" | "WHAC-A-MOLE"
 interface State {
     game: Game,
     name: string
@@ -64,24 +63,13 @@ export default class Home extends Component<Props, State> {
                             <Card>
                                 <Card.Content>
                                     <Card.Header>
-                                        Username:  {username}
-                                    </Card.Header>
-                                    <Card.Meta>
-                                        <Input fluid value={name} onChange={(e) => this.addName(e)} action={{ icon: 'send', onClick: () => addUsername(name), color: username? "green": "grey"  }} placeholder='add username' />
-                                    </Card.Meta>
-                                    <Card.Description>
-                                        
-                                    </Card.Description>
-                                </Card.Content>
-                                <Card.Content>
-                                    <Card.Header>
                                         Game
                                     </Card.Header>
                                     <Card.Meta>
                                         <Dropdown
                                             placeholder='Select Game'
                                             fluid
-                                            search
+                                            // search
                                             selection
                                             value={game}
                                             options={gameOption}

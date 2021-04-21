@@ -1,8 +1,26 @@
 import React, { useState, useContext } from 'react';
-import { Segment, Button, Header } from "semantic-ui-react";
+import { Segment, Button, Header, Dropdown, DropdownProps } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
 import Board from "../container/Board";
 import "./css/tictactoe.css"
+
+// interface PlayerType {
+//     player1: string, 
+//     player2: string, 
+//     text: string
+// }
+
+
+// interface OptionType {
+//     key: string, 
+//     value: PlayerType, 
+//     text: string
+// }
+
+const playerOption = [
+    {  key: "TIC-1", value: "Player 1 VS Player 2", text: "Player 1 VS Player 2" },
+    {  key: "TIC-2", value: "Player 1 VS Computer", text: "Player 1 VS Computer" },
+]
 
 const winningCombo = [
     "-1-2-3",
@@ -14,9 +32,11 @@ const winningCombo = [
     "-1-5-9",
     "-3-5-7"
 ]
+
 const TicTacToe = () => {
     const [board, setBoard] = useState<string[]>(["","","","","","","","",""]);
     const [next, setNext] = useState("X");
+    const [player, setPlayer] = useState({ player1: "Player 1", player2: "Computer", text: "Player 1 VS Computer"})
     const [winner, setWinner] = useState("")
     const [loading, setLoading] = useState(false)
     const { addMessage } = useContext(GlobalContext)
@@ -86,6 +106,11 @@ const TicTacToe = () => {
         } 
     }
 
+    const pickPlayerType = (data: DropdownProps) => {
+        let [player1, player2] = (data.value as string).split(" VS ")
+        setPlayer({ player1, player2, text: (data.value as string) })
+    }
+
     const newGame = () => {
         setBoard(["","","","","","","","",""])
         setNext("X")
@@ -101,15 +126,30 @@ const TicTacToe = () => {
                                 newGame();
                                 setWinner("")
                             }}>New Game</Button>
-                            <Button onClick={() => computerGuess()}>Computer Guess</Button>
+                            {/* <Button onClick={() => computerGuess()}>Computer Guess</Button> */}
                         </Button.Group>
 
                         <Header color={winner === "X" ? "green" : "red"}>
-                            <Header.Content>You: <span  data-testid="player">X</span></Header.Content>
+                            <Header.Content>{player.player1}: <span  data-testid="player">X</span></Header.Content>
                         </Header>
 
                         <Header color={winner === "O" ? "green" : "red"} >
-                            <Header.Content>Computer: <span  data-testid="computer">O</span></Header.Content>
+                            <Header.Content>{player.player2}: <span  data-testid="computer">O</span></Header.Content>
+                        </Header>
+
+
+                        <Dropdown
+                            text="Player1 vs ..."
+                            placeholder=''
+                            fluid 
+                            selection
+                            value={player.text}
+                            options={playerOption}
+                            onChange={(e, data) => pickPlayerType(data)}
+                        />
+
+                        <Header >
+                        <Header.Content>NEXT: <span>{next === "X"? player.player1.toUpperCase() : player.player2.toUpperCase()}</span></Header.Content>
                         </Header>
 
                     </div>
