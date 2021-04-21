@@ -99,7 +99,7 @@ const WhacAMole = () => {
 
                         <Dropdown
                             data-testid="speed-dropdown"
-                            text="Change Speed"
+                            text="Game Speed"
                             placeholder=''
                             fluid
                             selection

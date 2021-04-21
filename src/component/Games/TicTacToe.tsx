@@ -18,8 +18,8 @@ import "./css/tictactoe.css"
 // }
 
 const playerOption = [
-    {  key: "TIC-1", value: "Player 1 VS Player 2", text: "Player 1 VS Player 2" },
     {  key: "TIC-2", value: "Player 1 VS Computer", text: "Player 1 VS Computer" },
+    {  key: "TIC-1", value: "Player 1 VS Player 2", text: "Player 1 VS Player 2" },
 ]
 
 const winningCombo = [
@@ -41,7 +41,7 @@ const TicTacToe = () => {
     const [loading, setLoading] = useState(false)
     const { addMessage } = useContext(GlobalContext)
 
-    const play = async (index: number) => {
+    const play = (index: number) => {
         if (winner) {
             addMessage(`Player ${winner} win the game. You can start a new game!`);
             return;
@@ -49,15 +49,15 @@ const TicTacToe = () => {
         if (board[index] === "") {
             board[index] = next;
 
-            await setBoard([...board]);
+            setBoard([...board]);
             
-            let win = await checkWin()
+            let win = checkWin()
             if (win) {
                 
                 addMessage(win)
                 // setBoard(["","","","","","","","",""])
             } else {
-                await setNext(next === "X"? "O" : "X")
+                setNext(next === "X"? "O" : "X")
             }
         } else {
             addMessage("Try again!")
@@ -120,7 +120,7 @@ const TicTacToe = () => {
             <Board 
                 control={
                     <div className="score-ttt">
-                        <Button.Group color="black">
+                        <Button.Group data-testid="new-game" color="black">
                             <Button onClick={() => {
                                 setLoading(false)
                                 newGame();
@@ -139,6 +139,7 @@ const TicTacToe = () => {
 
 
                         <Dropdown
+                            data-testid="player-dropdown"
                             text="Player1 vs ..."
                             placeholder=''
                             fluid 
