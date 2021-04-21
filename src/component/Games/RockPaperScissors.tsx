@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Segment, Header } from "semantic-ui-react";
+import { Segment, Header, } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
-import "./css/tictactoe.css"
+import Board from "../container/Board";
+import "./css/rockPaperScissors.css"
 
 
 const iconOption = {
@@ -12,6 +13,7 @@ const iconOption = {
 const RockPaperScissors = () => {
     const [options, setOptions] = useState(["rock", "paper", "scissors"]);
     const [plays, setPlays] = useState({ you: "", computer: "" })
+    const [winner, setWinner] = useState("")
     const { addMessage } = useContext(GlobalContext)
 
     const play = (option: string) => {
@@ -19,23 +21,26 @@ const RockPaperScissors = () => {
         let computer:string = computerGuess();
         setPlays({ you: playerGuess, computer: computer })
           
-        let verdict =  checkWin(playerGuess, computer)!
-        addMessage(verdict)
+        checkWin(playerGuess, computer)!
 
     }
 
     const checkWin = (playerGuess: string, computer: string) => {
-
+        let win = ""
         if (playerGuess === computer) {
-            return "Draw!"
+            // return "Draw!"
         } else if (["rock", "paper"].includes(playerGuess) && ["rock", "paper"].includes(computer)) {
-            return `${playerGuess === "paper"? "You" : "Computer"} won!`
-        } else if (["rock",  "scissors"].includes(playerGuess) && ["rock",  "scisosrs"].includes(computer)) {
-            return `${playerGuess === "rock"? "You" : "Computer"} won!`
+            win = playerGuess === "paper"? "You" : "Computer";
+            // return `${win} won!`
+        } else if (["rock",  "scissors"].includes(playerGuess) && ["rock",  "scissors"].includes(computer)) {
+            win = playerGuess === "rock"? "You" : "Computer"
+            // return `${win} won!`
         } else if (["paper",  "scissors"].includes(playerGuess) && ["paper",  "scissors"].includes(computer)) {
-            return `${playerGuess === "scissors"? "You" : "Computer"} won!`
+            win = playerGuess === "scissors"? "You" : "Computer"
+            // return `${win} won!`
         } 
 
+        setWinner(win)
     }
 
     const computerGuess = () => {
@@ -46,17 +51,33 @@ const RockPaperScissors = () => {
 
     return (
         <div>
-            <Header>
-                <Header.Content>You: <span  data-testid="player" style={{ color: "green"}}>{plays.you}</span></Header.Content>
-                <Header.Subheader></Header.Subheader>
-                <Header.Content>Computer: <span  data-testid="computer"  style={{ color: "green"}}>{plays.computer}</span></Header.Content>
-            </Header>
-            <Segment>
-                <div data-testid="board" className="container">
-                    {options.map((tile, index) => <div data-testid={tile} key={`key-${index}`} onClick={() => play(tile)}> <h1>{tile}</h1> </div>)}
-                </div>
-            </Segment>
- 
+            <Board 
+                control={
+                    <div className="score">
+                        <Header color={winner === "You" ? "green" : "red"}>
+                            <Header.Content>You</Header.Content>
+                            <Header.Subheader>
+                                <span  data-testid="player">{plays.you}</span>
+                            </Header.Subheader>
+                        </Header>
+
+                        <Header color={winner === "Computer" ? "green" : "red"}>
+                            <Header.Content>Computer</Header.Content>
+                            <Header.Subheader>
+                                <span  data-testid="computer">{plays.computer}</span>
+                            </Header.Subheader>
+                        </Header>
+                    </div>
+                } 
+            
+                game={                      
+                    <Segment>
+                        <div data-testid="board" className="container">
+                            {options.map((tile, index) => <div data-testid={tile} key={`key-${index}`} onClick={() => play(tile)}> <h1>{tile}</h1> </div>)}
+                        </div>
+                    </Segment>
+                } 
+            />
         </div>
     )
 }

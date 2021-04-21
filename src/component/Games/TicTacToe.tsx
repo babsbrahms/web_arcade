@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { Segment, Button } from "semantic-ui-react";
+import { Segment, Button, Header } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
+import Board from "../container/Board";
 import "./css/tictactoe.css"
 
 const winningCombo = [
@@ -16,12 +17,15 @@ const winningCombo = [
 const TicTacToe = () => {
     const [board, setBoard] = useState<string[]>(["","","","","","","","",""]);
     const [next, setNext] = useState("X");
-    const [player1, setPalayer1] = useState<string>("")
-    const [player2, setPalayer2] = useState<string>("")
+    const [winner, setWinner] = useState("")
     const [loading, setLoading] = useState(false)
     const { addMessage } = useContext(GlobalContext)
 
     const play = async (index: number) => {
+        if (winner) {
+            addMessage(`Player ${winner} win the game. You can start a new game!`);
+            return;
+        }
         if (board[index] === "") {
             board[index] = next;
 
@@ -29,6 +33,7 @@ const TicTacToe = () => {
             
             let win = await checkWin()
             if (win) {
+                
                 addMessage(win)
                 // setBoard(["","","","","","","","",""])
             } else {
@@ -50,7 +55,9 @@ const TicTacToe = () => {
 
         if (winningCombo.includes(combo)) {
             setLoading(true)
+            setWinner(next)
             return `Player ${next} wins!`
+
         } else {
             let draw = board.every(tile => tile !== "")
 
@@ -85,18 +92,37 @@ const TicTacToe = () => {
     }
     return (
         <div>
-            <Segment disabled={loading}>
-                <div className="container">
-                    {board.map((tile, index) => <div key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
-                </div>
-            </Segment>
+            <Board 
+                control={
+                    <div className="score-ttt">
+                        <Button.Group color="black">
+                            <Button onClick={() => {
+                                setLoading(false)
+                                newGame();
+                                setWinner("")
+                            }}>New Game</Button>
+                            <Button onClick={() => computerGuess()}>Computer Guess</Button>
+                        </Button.Group>
 
+                        <Header color={winner === "X" ? "green" : "red"}>
+                            <Header.Content>You: <span  data-testid="player">X</span></Header.Content>
+                        </Header>
 
-            <Button onClick={() => {
-                setLoading(false)
-                newGame();
-            }}>New Game</Button>
-            <Button onClick={() => computerGuess()}>Computer Guess</Button>
+                        <Header color={winner === "O" ? "green" : "red"} >
+                            <Header.Content>Computer: <span  data-testid="computer">O</span></Header.Content>
+                        </Header>
+
+                    </div>
+                } 
+            
+                game={                      
+                    <Segment disabled={loading}>
+                        <div className="container">
+                            {board.map((tile, index) => <div className={`${(winner !== "") && (winner === tile)? "win" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
+                        </div>
+                    </Segment>
+                } 
+            />
         </div>
 
     )

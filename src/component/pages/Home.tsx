@@ -18,6 +18,13 @@ interface State {
     name: string
 }
 
+const gameOption = [
+    {  key: "TIC-TAC-TOE", value: "TIC-TAC-TOE", text: "TIC-TAC-TOE" },
+    {  key: "ROCK-PAPER-SCISSORS", value: "ROCK-PAPER-SCISSORS", text: "ROCK-PAPER-SCISSORS" },
+    {  key: "WHAC-A-MOLE", value: "WHAC-A-MOLE", text: "WHAC-A-MOLE" },
+
+]
+
 export default class Home extends Component<Props, State> {
     constructor (props:Props) {
         super(props)
@@ -77,7 +84,7 @@ export default class Home extends Component<Props, State> {
                                             search
                                             selection
                                             value={game}
-                                            options={["TIC-TAC-TOE", "ROCK-PAPER-SCISSORS", "WHAC-A-MOLE"].map(x => ({  key: x, value: x, text: x }))}
+                                            options={gameOption}
                                             onChange={(e, data) => this.pickGame(data)}
                                         />
 

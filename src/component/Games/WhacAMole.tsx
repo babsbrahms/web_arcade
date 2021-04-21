@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Segment, Button } from "semantic-ui-react";
-import { GlobalContext } from "../../context/GlobalContext";
+import { Segment, Button, Header } from "semantic-ui-react";
+import Board from "../container/Board";
 import "./css/whacamole.css"
 
 
 const WhacAMole = () => {
-    const [board, setBoard] = useState<string[]>(["","","","","","","","",""]);
+    const board = ["","","","","",""];
     const [position, setPostion] = useState(-1);
-    const [loading, setLoading] = useState(false)
+    const [verdict, setVerdict] = useState("")
     const [action, setAction] = useState("")
-    const { addMessage } = useContext(GlobalContext)
     const timer = useRef<any>()
 
     useEffect (() => {
@@ -23,9 +22,9 @@ const WhacAMole = () => {
     const play = async (index: number) => {
         if (action === "play" && position === index) {
             stop()
-            addMessage("Win")
+            setVerdict("win")
         } else if (action === "play" && position !== index) {
-            addMessage("Miss")
+            setVerdict("loss")
         }
     }
 
@@ -34,7 +33,7 @@ const WhacAMole = () => {
         setAction("play")
         timer.current = setInterval(() => {
             computerGuess()
-        }, 500)
+        }, 400)
     }
 
     const stop = () => {
@@ -52,15 +51,29 @@ const WhacAMole = () => {
 
     return (
         <div>
-            <Segment disabled={loading}>
-                <div className="wrapper">
-                    {board.map((tile, index) => <div className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
-                </div>
-            </Segment>
+            <Board 
+                control={
+                    <div className="score">
+                        <Button.Group color="black">
+                            <Button disabled={action === "play"} onClick={() => start()}>Start</Button>
+                            <Button disabled={action !== "play"} onClick={() => stop()}>Stop</Button>
+                        </Button.Group>
 
 
-            <Button disabled={action === "play"} onClick={() => start()}>Start</Button>
-            <Button disabled={action !== "play"} onClick={() => stop()}>Stop</Button>
+                        <Header color={verdict === "win" ? "green" : "red"}>
+                            <Header.Content data-testid="vedict">{verdict}</Header.Content>
+                        </Header>
+                    </div>
+                } 
+            
+                game={                      
+                    <Segment>
+                        <div className="wrapper">
+                            {board.map((tile, index) => <div className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
+                        </div>
+                    </Segment>
+                } 
+            />
         </div>
 
     )

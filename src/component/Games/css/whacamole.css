@@ -39,3 +39,11 @@ h1 {
     border: 2px solid coral;
     
 }
+
+.score {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+    grid-auto-rows: minmax(50px, auto);
+    align-items: center;
+}
