@@ -3,13 +3,14 @@ import { render, fireEvent, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import RockPaperScissors from "../RockPaperScissors";
 
+afterEach(cleanup)
 
 test("Make sure test works", () => {
     expect("a").toBe("a")
 })
 
 
-test("board should have 5 tile", () => {
+test("board should have 3 tile", () => {
     const { getByTestId } = render(<RockPaperScissors />)
 
     let boardEl = getByTestId("board")
@@ -18,83 +19,83 @@ test("board should have 5 tile", () => {
 })
 
 
-// test("Clicking rock tile should guess rock", () => {
-//     const { getByTestId } = render(<RockPaperScissors />)
+test("Clicking rock tile should guess rock", () => {
+    const { getByTestId } = render(<RockPaperScissors />)
 
-//     let rockdEl = getByTestId("rock");
-//     let playerGuess = getByTestId("player")
+    let rockdEl = getByTestId("rock");
+    let playerGuess = getByTestId("player")
 
-//     expect(playerGuess).toBe("");
+    expect(playerGuess).toHaveTextContent("");
     
-//     fireEvent.click(rockdEl)
+    fireEvent.click(rockdEl)
 
-//     expect(playerGuess).toMatch(/rock/ig);
-// })
+    expect(playerGuess.textContent).toMatch(/rock/ig);
+})
 
-// test("Clicking paper tile should guess paper", () => {
-//     const { getByTestId } = render(<RockPaperScissors />)
+test("Clicking paper tile should guess paper", () => {
+    const { getByTestId } = render(<RockPaperScissors />)
 
-//     let paperEl = getByTestId("paper");
-//     let playerGuess = getByTestId("player")
+    let paperEl = getByTestId("paper");
+    let playerGuess = getByTestId("player")
 
-//     expect(playerGuess).toBe("");
+    expect(playerGuess).toHaveTextContent("");
     
-//     fireEvent.click(paperEl)
+    fireEvent.click(paperEl)
 
-//     expect(playerGuess).toMatch(/paper/ig);
-
-
-// })
+    expect(playerGuess.textContent).toMatch(/paper/ig);
 
 
-// test("Clicking scissor tile should guess scissors", () => {
-//     const { getByTestId } = render(<RockPaperScissors />)
+})
 
-//     let scissorsEl = getByTestId("scissors");
-//     let playerGuess = getByTestId("player")
 
-//     expect(playerGuess).toBe("");
+test("Clicking scissor tile should guess scissors", () => {
+    const { getByTestId } = render(<RockPaperScissors />)
+
+    let scissorsEl = getByTestId("scissors");
+    let playerGuess = getByTestId("player")
+
+    expect(playerGuess).toHaveTextContent("");
     
-//     fireEvent.click(scissorsEl)
+    fireEvent.click(scissorsEl)
 
-//     expect(playerGuess).toMatch(/scissors/ig);
+    expect(playerGuess.textContent).toMatch(/scissors/ig);
 
     
-// })
+})
 
 
-// test("Guess should no be less than 2", () => {    
+test("Guess should no be less than 2", () => {    
 
-//     let random = Math.floor(Math.random() * 3)
+    let random = Math.floor(Math.random() * 3)
 
-//     expect(random).toBeLessThanOrEqual(2);
+    expect(random).toBeLessThanOrEqual(2);
 
-// })
-
-
-// test("Clicking board should make computer either rock, paper or scissors", () => {
-//     const { getByTestId } = render(<RockPaperScissors />)
-
-//     let scissorsEl = getByTestId("scissors")
-//     let computerGuess = getByTestId("computer")
+})
 
 
-//     fireEvent.click(scissorsEl)
+test("Clicking board should make computer either rock, paper or scissors", () => {
+    const { getByTestId } = render(<RockPaperScissors />)
 
-//     expect(["rock", "paper", "scissors"]).toContain(computerGuess.textContent);
+    let scissorsEl = getByTestId("scissors")
+    let computerGuess = getByTestId("computer")
 
-// })
 
-// test("Clicking board should make 2 guesses", () => {
-//     const { getByTestId } = render(<RockPaperScissors />)
+    fireEvent.click(scissorsEl)
 
-//     let rockEl = getByTestId("rock")
-//     let computerGuess = getByTestId("computer");
-//     let playerGuess = getByTestId("player");
+    expect(["rock", "paper", "scissors"]).toContain(computerGuess.textContent);
 
-//     let options = ["rock", "paper", "scissors"];
-//     fireEvent.click(rockEl)
+})
 
-//     expect(options).toContain(computerGuess.textContent);
-//     expect(playerGuess.textContent).toBe("rock")
-// })
+test("Clicking board should make 2 guesses", () => {
+    const { getByTestId } = render(<RockPaperScissors />)
+
+    let rockEl = getByTestId("rock")
+    let computerGuess = getByTestId("computer");
+    let playerGuess = getByTestId("player");
+
+    let options = ["rock", "paper", "scissors"];
+    fireEvent.click(rockEl)
+
+    expect(options).toContain(computerGuess.textContent);
+    expect(playerGuess.textContent).toBe("rock")
+})

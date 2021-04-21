@@ -111,7 +111,7 @@ const WhacAMole = () => {
             
                 game={                      
                     <Segment>
-                        <div className="wrapper">
+                        <div data-testid="board" className="wrapper">
                             {board.map((tile, index) => <div className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>
                     </Segment>
