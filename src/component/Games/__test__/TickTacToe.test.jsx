@@ -27,24 +27,6 @@ test("Second player should initially be computer", () => {
 })
 
 
-// /// fail
-// test("can change player", () => {
-//     const { getByTestId, getByText } = render(<TicTacToe />)
-
-//     let playerDropdown = getByTestId("player-dropdown")
-
-//     fireEvent.change(playerDropdown, {
-//         data: {
-//             value: "Player 1 VS Player 2"
-//         }
-//     })
-
-//     let computer = getByText("Player 2:")
-
-//     expect(computer).toBeInTheDocument()
-// })
-
-
 test("can get next player", () => {
     const { getByTestId } = render(<TicTacToe />)
 
@@ -90,20 +72,5 @@ test("Cannot play on thesame tile twice", () => {
     expect(boardEl.children[0]).toHaveTextContent("X")
 })
 
-
-// test("Can start new game after playing", () => {
-//     const { getByTestId } = render(<TicTacToe />)
-
-//     let boardEl = getByTestId("board")
-//     let NewGameBTN = getByTestId("new-game")
-
-//     fireEvent.click(boardEl.children[0])
-//     fireEvent.click(boardEl.children[1])
-//     fireEvent.click(boardEl.children[2])
-
-//     fireEvent.click(NewGameBTN)
-
-//     expect(boardEl.children[0].children[0]).toHaveTextContent("")
-// })
 
 
