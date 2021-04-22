@@ -30,7 +30,7 @@ const TicTacToe = () => {
     const [winner, setWinner] = useState("");
     const [victoryCombo, setVictoryCombo] = useState<number[]>([])
     const [loading, setLoading] = useState(false)
-    const { addMessage } = useContext(GlobalContext);
+    const { addMessage, theme } = useContext(GlobalContext);
 
     useEffect(() => {
         if (currentPlayer === "O" && player.player2 === "Computer") {
@@ -217,7 +217,7 @@ const TicTacToe = () => {
                 } 
             
                 game={                      
-                    <Segment disabled={loading}>
+                    <Segment style={{  backgroundColor: theme === "light"? "white" : "black" }} disabled={loading}>
                         <div data-testid="board" className="container">
                             {board.map((tile, index) => <div className={`${(winner !== "") && (victoryCombo.includes(index))? "win" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>

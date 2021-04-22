@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Segment, Button, Header, Dropdown } from "semantic-ui-react";
 import Board from "../container/Board";
+import { GlobalContext } from "../../context/GlobalContext"
 import "./css/whacamole.css"
 
 const boardOption = [
@@ -33,6 +34,8 @@ const WhacAMole = () => {
     const [verdict, setVerdict] = useState("")
     const [action, setAction] = useState("")
     const timer = useRef<any>()
+
+    const { theme } = useContext(GlobalContext)
 
     useEffect (() => {
         return () => {
@@ -116,7 +119,7 @@ const WhacAMole = () => {
                 } 
             
                 game={                      
-                    <Segment disabled={disabled}>
+                    <Segment style={{  backgroundColor: theme === "light"? "white" : "black" }} disabled={disabled}>
                         <div data-testid="board" className="wrapper">
                             {board.map((tile, index) => <div role={`${position === index? "gridcell" : ""}`} className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>

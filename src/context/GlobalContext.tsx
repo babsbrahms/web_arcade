@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { GlobalReducer } from "./GlobalReducer";
 
+// type ThemeTpe = | "light" | "dark"
 export type GlobalContextType = {
     theme: string,
     message: string,
     username: string,
-    changeTheme: (theme: string) => void,
+    changeTheme: () => void,
     addUsername: (name: string) => void,
     addMessage: (msg: string) => void,
     clearMessage: () => void
@@ -30,10 +31,9 @@ interface Props {
 const GlobalProvider:React.FC<Props> = ({ children }: Props) => {
     const [state, dispatch] = React.useReducer(GlobalReducer, initialState, undefined);
 
-    const changeTheme = (val: string) =>{
+    const changeTheme = () =>{
         dispatch({
             type: "CHANGE_THEME",
-            payload: val
         })
     }
 

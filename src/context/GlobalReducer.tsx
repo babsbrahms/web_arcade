@@ -1,9 +1,12 @@
 
+
 interface State {
     theme: string,
     message: string,
     username: string
 }
+
+
 
 const initialState = {
     theme: "light",
@@ -11,7 +14,7 @@ const initialState = {
     username: ""
 }
 
-type Actions = | { type: "CHANGE_THEME", payload: string } 
+type Actions = | { type: "CHANGE_THEME" } 
 | { type: "ADD_USERNAME", payload: string } 
 | { type: "ADD_MESSAGE", payload: string }
 | { type: "CLEAR_MESSAGE" } 
@@ -19,7 +22,9 @@ type Actions = | { type: "CHANGE_THEME", payload: string }
 export const GlobalReducer = (state: State = initialState, actions: Actions ) => {
     switch (actions.type) {
         case "CHANGE_THEME":
-            return { ...state, theme: actions.payload }
+            document.body.style.backgroundColor = state.theme === "dark"? "white" : "black";
+            // style={{  backgroundColor: theme === "light"? "white" : "black" }}
+            return { ...state, theme: state.theme === "light"? "dark" : "light" }
 
         case "ADD_MESSAGE":
             return { ...state, message: actions.payload }

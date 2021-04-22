@@ -1,5 +1,5 @@
 import React, { Component, lazy, Suspense } from 'react';
-import { Card, Dropdown, Segment, Input, DropdownProps } from 'semantic-ui-react';
+import { Card, Dropdown, Segment, Radio, DropdownProps } from 'semantic-ui-react';
 import ErrorBoundary from "../container/ErrorBoundary"
 import { GlobalContext, GlobalContextType } from "../../context/GlobalContext"
 import { Alert} from "../container/Alert";
@@ -53,32 +53,44 @@ export default class Home extends Component<Props, State> {
     }
     render() {
         const { game, name } = this.state;
+        const { theme } = this.context as GlobalContextType;
         
         return (
-            <div>
+            <div style={{ width: "100%", height: "100%", backgroundColor: theme === "light"? "white" : "black" }}>
                 <GlobalContext.Consumer>
-                    {({ username, addUsername }) => (
+                    {({ changeTheme }) => (
                     <>
-                        <Segment>
-                            <Card>
-                                <Card.Content>
-                                    <Card.Header>
-                                        Game
-                                    </Card.Header>
-                                    <Card.Meta>
-                                        <Dropdown
-                                            placeholder='Select Game'
-                                            fluid
-                                            // search
-                                            selection
-                                            value={game}
-                                            options={gameOption}
-                                            onChange={(e, data) => this.pickGame(data)}
-                                        />
+                        <Segment id="game-dashboard" style={{ backgroundColor: theme === "light"? "white" : "black" }}>
+                            <Card.Group itemsPerRow="2">
+                                <Card>
+                                    <Card.Content>
+                                        <Card.Header>
+                                            Game
+                                        </Card.Header>
+                                        <Card.Meta>
+                                            <Dropdown
+                                                placeholder='Select Game'
+                                                fluid
+                                                // search
+                                                clearable
+                                                selection
+                                                value={game}
+                                                options={gameOption}
+                                                onChange={(e, data) => this.pickGame(data)}
+                                            />
 
-                                    </Card.Meta>
-                                </Card.Content>
-                            </Card>
+                                        </Card.Meta>
+                                    </Card.Content>
+                                </Card>
+
+                                <Card>
+                                    <Card.Content>
+                                        <Segment secondary>
+                                            <Radio type="radio" toggle value={theme} checked={(theme === "light")} onChange={() => changeTheme()} label={`${theme === "light" ? "dark" : "light"} theme`}/>
+                                        </Segment>
+                                    </Card.Content>
+                                </Card>
+                            </Card.Group>
                         </Segment>
                         <Alert />
                         <div>

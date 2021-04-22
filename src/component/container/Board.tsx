@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Message, Segment } from "semantic-ui-react";
+import { GlobalContext } from "../../context/GlobalContext"
 
 
 interface Props {
@@ -7,12 +8,13 @@ interface Props {
     control?: React.ReactNode
 }
 const Board:React.FC<Props> = ({ game, control }) => {
+    const { theme } = useContext(GlobalContext)
     return (
-        <Segment style={{ width: "100vw", height: "80vh" }}>
+        <Segment style={{ backgroundColor: theme === "light"? "white" : "black"  }}>
             <Message>
                 {control}
             </Message>
-            <Segment>
+            <Segment style={{ backgroundColor: theme === "dark"? "white" : "black"  }}>
                 {game}
             </Segment>
         </Segment>

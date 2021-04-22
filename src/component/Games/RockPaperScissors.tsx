@@ -14,7 +14,7 @@ const RockPaperScissors = () => {
     const [options, setOptions] = useState(["rock", "paper", "scissors"]);
     const [plays, setPlays] = useState({ you: "", computer: "" })
     const [winner, setWinner] = useState("")
-    const { addMessage } = useContext(GlobalContext)
+    const { theme } = useContext(GlobalContext)
 
     const play = (option: string) => {
         let playerGuess = option;
@@ -71,7 +71,7 @@ const RockPaperScissors = () => {
                 } 
             
                 game={                      
-                    <Segment>
+                    <Segment style={{  backgroundColor: theme === "light"? "white" : "black" }}>
                         <div data-testid="board" className="container">
                             {options.map((tile, index) => <div data-testid={tile} key={`key-${index}`} onClick={() => play(tile)}> <h1>{tile}</h1> </div>)}
                         </div>
