@@ -28,6 +28,7 @@ const speedOption = [
 const WhacAMole = () => {
     const [board, setBoard] = useState(["","","","","",""]);
     const [speed, setSpeed] = useState(400)
+    const [disabled, setDisabled] = useState(false)
     const [position, setPostion] = useState(-1);
     const [verdict, setVerdict] = useState("")
     const [action, setAction] = useState("")
@@ -45,6 +46,7 @@ const WhacAMole = () => {
         if (action === "play" && position === index) {
             stop()
             setVerdict("win")
+            setDisabled(true)
         } else if (action === "play" && position !== index) {
             setVerdict("loss")
         }
@@ -52,6 +54,7 @@ const WhacAMole = () => {
 
 
     const start = () => {
+        setDisabled(false)
         setAction("play")
         timer.current = setInterval(() => {
             computerGuess()
@@ -59,6 +62,7 @@ const WhacAMole = () => {
     }
 
     const stop = () => {
+        setDisabled(true)
         setAction("stop")
         clearInterval(timer.current)
     }
@@ -112,7 +116,7 @@ const WhacAMole = () => {
                 } 
             
                 game={                      
-                    <Segment>
+                    <Segment disabled={disabled}>
                         <div data-testid="board" className="wrapper">
                             {board.map((tile, index) => <div role={`${position === index? "gridcell" : ""}`} className={`${position === index? "pick" : ""}`} key={`key-${index}`} onClick={() => play(index)}> <h1>{tile}</h1> </div>)}
                         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Segment, Button, Header, Dropdown, DropdownProps } from "semantic-ui-react";
 import { GlobalContext } from "../../context/GlobalContext";
 import Board from "../container/Board";
@@ -32,6 +32,12 @@ const TicTacToe = () => {
     const [loading, setLoading] = useState(false)
     const { addMessage } = useContext(GlobalContext);
 
+    useEffect(() => {
+        if (currentPlayer === "O" && player.player2 === "Computer") {
+            computerGuess()
+        }
+    }, [currentPlayer])
+
     const play = (index: number) => {
         if (winner) {
             addMessage(`Player ${winner} win the game. You can start a new game!`);
@@ -64,7 +70,6 @@ const TicTacToe = () => {
         if (currentPlayer === "O" && player.player2 === "Computer") {
             
         }
-
     }
 
     const checkWin = (): string => {
@@ -168,6 +173,8 @@ const TicTacToe = () => {
         setLoading(false);
         setWinner("")
     }
+
+    
     return (
         <div>
             <Board 

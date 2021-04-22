@@ -54,14 +54,14 @@ const RockPaperScissors = () => {
             <Board 
                 control={
                     <div className="score">
-                        <Header color={winner === "You" ? "green" : "red"}>
+                        <Header textAlign="center" color={winner === "You" ? "green" : "red"}>
                             <Header.Content>You</Header.Content>
                             <Header.Subheader>
                                 <span  data-testid="player">{plays.you}</span>
                             </Header.Subheader>
                         </Header>
 
-                        <Header color={winner === "Computer" ? "green" : "red"}>
+                        <Header textAlign="center" color={winner === "Computer" ? "green" : "red"}>
                             <Header.Content>Computer</Header.Content>
                             <Header.Subheader>
                                 <span  data-testid="computer">{plays.computer}</span>
