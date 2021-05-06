@@ -1,6 +1,17 @@
-# Getting Started with Create React App
+# WEB ARCADE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It contains games like tic-tac-toe, whac-a-mole, and rock-paper-scissors. 
+
+Users can play against other users or computers.
+
+[App Link](https://web-arcade-82174.web.app)
+
+## Technology Used
+- react 
+- typescript
+- react-testing-library
+
+
 
 ## Available Scripts
 
