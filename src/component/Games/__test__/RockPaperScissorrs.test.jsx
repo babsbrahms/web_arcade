@@ -73,7 +73,7 @@ test("Guess should no be less than 2", () => {
 })
 
 
-test("Clicking board should make computer either rock, paper or scissors", () => {
+test("Clicking board should make computer guess either rock, paper or scissors", () => {
     const { getByTestId } = render(<RockPaperScissors />)
 
     let scissorsEl = getByTestId("scissors")

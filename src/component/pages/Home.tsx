@@ -86,7 +86,7 @@ export default class Home extends Component<Props, State> {
                                 <Card>
                                     <Card.Content>
                                         <Segment secondary>
-                                            <Radio type="radio" toggle value={theme} checked={(theme === "light")} onChange={() => changeTheme()} label={`${theme === "light" ? "dark" : "light"} theme`}/>
+                                            <Radio data-testid="theme" type="radio" toggle value={theme} checked={(theme === "light")} onChange={() => changeTheme()} label={`${theme === "light" ? "dark" : "light"} theme`}/>
                                         </Segment>
                                     </Card.Content>
                                 </Card>
