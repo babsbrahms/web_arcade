@@ -93,52 +93,28 @@ const TicTacToe = () => {
 
     const checkRoundWin = () => {
         const winningCombo = [ "012", "345", "678", "036", "147", "258", "048", "246" ];
-        let combo = "";
+        let combo: string[] = [];
         let win = false;
-        let possible = [];
         
         // get combo for current player
         board.forEach((tile, index) => {
             if (tile === currentPlayer) {
-                combo += index
+                combo.push(index.toString())
             }
         });
 
-        // get possible combo of player combo
-        for (let i = 0; i < combo.length; i++) {
-            if (combo.substr(i, 3).length < 3) {
-                break
-            }
-            for (let j = 0; j < combo.length; j++) {
-                // next 2 letters
-                if (j > i && combo[j + 1]) {
-                    possible.push(combo[i] + combo[j] + combo[j + 1])
-                }
 
-                // 1 letter in between
-                if (j > i && combo[j + 3]) {
-                    possible.push(combo[i] + combo[j + 1] + combo[j + 3] )
-                }
-            }
-        }
+        for (let x of winningCombo) {
+            let splitted = x.split("");
 
-        // check for combo in winnig combo
-        for (let word of possible) {
-            if (winningCombo.includes(word)) {
-                var vic = word.split('').map((item) => parseInt(item, 10));
-                // console.log("win: ", vic);
-                
-                setVictoryCombo(vic)
+            if (combo.includes(splitted[0]) && combo.includes(splitted[1]) && combo.includes(splitted[2])) {
                 win = true;
+                var vic = splitted.map((item) => parseInt(item, 10));
+                setVictoryCombo(vic);
+
                 break;
             }
         }
-
-        // console.log({
-        //     combo,
-        //     possible
-        // });
-        
 
         return win
     }
